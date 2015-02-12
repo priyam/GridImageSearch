@@ -2,18 +2,42 @@ package com.pc.gridimagesearch;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 
 public class SearchActivity extends ActionBarActivity {
+
+    private EditText etQuery;
+    private GridView gvResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        setupViews();
+
+
     }
+
+    private void setupViews() {
+
+        etQuery = (EditText) findViewById(R.id.etQuery);
+        gvResults = (GridView) findViewById(R.id.gvResults);
+    }
+
+
 
 
     @Override
@@ -38,7 +62,20 @@ public class SearchActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onImageSearch(View view) {
+    public void onImageSearch(View v) {
+        String query = etQuery.getText().toString();
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        // https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android&rsz=1
+        String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8";
+        client.get(searchUrl, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("DEBUG", response.toString());
+            }
+        });
+
+        Toast.makeText(this, "search for " + query, Toast.LENGTH_SHORT).show();
 
     }
 }
