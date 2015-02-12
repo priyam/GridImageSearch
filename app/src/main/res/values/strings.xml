@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">GridImageSearch</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="searchPrompt">Enter search query</string>
+    <string name="Search">search_label</string>
+</resources>
