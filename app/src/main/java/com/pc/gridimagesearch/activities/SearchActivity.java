@@ -1,40 +1,66 @@
-package com.pc.gridimagesearch;
+package com.pc.gridimagesearch.activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.pc.gridimagesearch.R;
+import com.pc.gridimagesearch.adapters.ImageResultsAdapter;
+import com.pc.gridimagesearch.models.ImageResult;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class SearchActivity extends ActionBarActivity {
 
     private EditText etQuery;
     private GridView gvResults;
+    private ArrayList<ImageResult> imageResults;
+    private ImageResultsAdapter aImageResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         setupViews();
-
-
+        imageResults = new ArrayList<ImageResult>();
+        aImageResults = new ImageResultsAdapter(this, imageResults);
+        gvResults.setAdapter(aImageResults);
     }
 
     private void setupViews() {
 
         etQuery = (EditText) findViewById(R.id.etQuery);
         gvResults = (GridView) findViewById(R.id.gvResults);
+        gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Launch the image display activity
+
+                //Create an intent
+                Intent i = new Intent(SearchActivity.this, ImageDisplayActivity.class);
+                //get the image results to display
+                ImageResult result = imageResults.get(position);
+                //pass the image results into intent
+                i.putExtra("url", result.getFullUrl());
+                startActivity(i);
+            }
+        });
     }
 
 
@@ -72,6 +98,16 @@ public class SearchActivity extends ActionBarActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("DEBUG", response.toString());
+                try {
+                    JSONArray imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
+                    imageResults.clear();
+                    //imageResults.addAll(ImageResult.fromJsonArray(imageResultsJson));
+                    //When you make changes to the adapter, it does modify the underlying data
+                    aImageResults.addAll(ImageResult.fromJsonArray(imageResultsJson));
+                } catch(JSONException e){
+                    e.printStackTrace();
+                }
+
             }
         });
 
