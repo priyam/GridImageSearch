@@ -6,22 +6,9 @@ public class ImageRequestFilters {
     private static String color;
     private static ImageType type = ImageType.NONE;
     private static String site;
-    private static boolean isFilterSet;
 
     private ImageRequestFilters()
     {
-        ImageRequestFilters.size = ImageSize.NONE;
-        ImageRequestFilters.color = null;
-        ImageRequestFilters.site = null;
-        ImageRequestFilters.type = ImageType.NONE;
-    }
-
-    public static boolean isIsFilterSet() {
-        return isFilterSet;
-    }
-
-    public static void setIsFilterSet(boolean isFilterSet) {
-        ImageRequestFilters.isFilterSet = isFilterSet;
     }
 
     public static ImageSize getSize() {

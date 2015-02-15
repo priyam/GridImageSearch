@@ -24,7 +24,7 @@ public class ImageResultsAdapter extends ArrayAdapter<ImageResult> {
     // View lookup cache
     private static class ViewHolder {
         ImageView image;
-        TextView title;
+        //TextView title;
     }
 
 
@@ -40,7 +40,7 @@ public class ImageResultsAdapter extends ArrayAdapter<ImageResult> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_image_result, parent, false);
             viewHolder.image = (ImageView) convertView.findViewById(R.id.ivImage);
-            viewHolder.title = (TextView) convertView.findViewById(R.id.tvTitle);
+            //viewHolder.title = (TextView) convertView.findViewById(R.id.tvTitle);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -48,9 +48,10 @@ public class ImageResultsAdapter extends ArrayAdapter<ImageResult> {
 
         // Populate the data into the template view using the data object
         viewHolder.image.setImageResource(0);
-        viewHolder.title.setText(Html.fromHtml(image.getTitle()));
+        //viewHolder.title.setText(Html.fromHtml(image.getTitle()));
 
-        Picasso.with(getContext()).load(image.getThumbUrl()).into(viewHolder.image);
+        int scaledHeight = ((parent.getWidth()/3) * image.getThumbHeight())/image.getThumbWidth();
+        Picasso.with(getContext()).load(image.getThumbUrl()).resize(parent.getWidth()/3, scaledHeight).into(viewHolder.image);
         // Return the completed view to render on screen
         return convertView;
     }

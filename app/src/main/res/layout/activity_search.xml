@@ -12,35 +12,9 @@
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
-
-    <!--<EditText
-        android:id="@+id/etQuery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignBottom="@+id/btnSearch"
-        android:ems="10"
-        android:hint="@string/searchPrompt"
-        android:layout_toLeftOf="@+id/btnSearch"
-        android:layout_toStartOf="@+id/btnSearch">
-
-        <requestFocus/>
-    </EditText>
-
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:text="@string/search_label"
-        android:onClick="onImageSearch"
-        />
-        android:layout_below="@+id/etQuery"
-        -->
-
-    <GridView
+    <com.etsy.android.grid.StaggeredGridView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/gvResults"
@@ -48,6 +22,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:numColumns="2"
+        app:column_count_portrait="3"
+        app:column_count_landscape="5"
         />
 </RelativeLayout>
