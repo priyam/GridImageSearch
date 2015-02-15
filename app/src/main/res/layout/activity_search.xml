@@ -4,8 +4,16 @@
     tools:context=".SearchActivity"
     >
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
 
-    <EditText
+
+    <!--<EditText
         android:id="@+id/etQuery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,15 +37,17 @@
         android:text="@string/search_label"
         android:onClick="onImageSearch"
         />
+        android:layout_below="@+id/etQuery"
+        -->
 
     <GridView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/gvResults"
-        android:layout_below="@+id/etQuery"
+        android:layout_below="@+id/toolbar"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:numColumns="3"
+        android:numColumns="2"
         />
 </RelativeLayout>
