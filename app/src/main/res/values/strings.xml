@@ -8,5 +8,8 @@
     <string name="search_label">Search</string>
     <string name="image_title_label">Image Title</string>
     <string name="title_activity_image_display">Full Image</string>
+    <string name="title_activity_set_filters">SetFiltersActivity</string>
+    <string name="image_size">Image Size</string>
+    <string name="Image_Color">Image Color</string>
 
 </resources>

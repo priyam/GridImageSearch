@@ -1,11 +1,13 @@
 package com.pc.gridimagesearch.activities;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +22,10 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.pc.gridimagesearch.R;
 import com.pc.gridimagesearch.adapters.ImageResultsAdapter;
+import com.pc.gridimagesearch.models.ImageRequestFilters;
 import com.pc.gridimagesearch.models.ImageResult;
+import com.pc.gridimagesearch.models.ImageSize;
+import com.pc.gridimagesearch.models.ImageType;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -28,15 +33,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 import java.util.Set;
+
+import static com.pc.gridimagesearch.models.ImageSize.SMALL;
 
 
 public class SearchActivity extends ActionBarActivity {
 
     //private EditText etQuery;
     private GridView gvResults;
-    private ArrayList<ImageResult> imageResults;
-    private ImageResultsAdapter aImageResults;
+    private static ArrayList<ImageResult> imageResults;
+    private static ImageResultsAdapter aImageResults;
+    private static String queryTerm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +60,7 @@ public class SearchActivity extends ActionBarActivity {
         imageResults = new ArrayList<ImageResult>();
         aImageResults = new ImageResultsAdapter(this, imageResults);
         gvResults.setAdapter(aImageResults);
+        queryTerm="";
     }
 
     private void setupViews() {
@@ -87,8 +97,10 @@ public class SearchActivity extends ActionBarActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                queryTerm = query;
                 // perform query here
-                DoImageSearch(query);
+                DoImageSearch();
                 return true;
             }
 
@@ -117,20 +129,26 @@ public class SearchActivity extends ActionBarActivity {
 
     public void onFilterAction(MenuItem mi) {
         // handle click here
-        Toast.makeText(this, "Filters button clicked", Toast.LENGTH_SHORT).show();
 
-        //Intent data = new Intent();
+        //Toast.makeText(this, "Filters button clicked", Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getSupportFragmentManager();
+        FiltersDialog editNameDialog = FiltersDialog.newInstance("Advanced Filters");
+        editNameDialog.show(fm, "fragment_filters");
     }
 
-      private void DoImageSearch(String query){
+      public static void DoImageSearch(){
         AsyncHttpClient client = new AsyncHttpClient();
 
-        // https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android&rsz=1
-        String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8";
+          String searchUrl = getSearchUrl(queryTerm);
+          Log.d("ERROR", searchUrl);
+
+          // https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android&rsz=1
+
+
         client.get(searchUrl, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("DEBUG", response.toString());
+                //Log.d("DEBUG", response.toString());
                 try {
                     JSONArray imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
                     imageResults.clear();
@@ -144,7 +162,84 @@ public class SearchActivity extends ActionBarActivity {
             }
         });
 
-        Toast.makeText(this, "search for " + query, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "search for " + query, Toast.LENGTH_SHORT).show();
 
     }
+
+    private static String getSearchUrl(String query) {
+
+        StringBuilder searchUrl = new StringBuilder("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=");
+        searchUrl.append(query);
+        searchUrl.append("&rsz=8");
+        String color = ImageRequestFilters.getColor();
+        if( color  != null && !TextUtils.isEmpty(color)) {
+            searchUrl.append("&imgcolor=");
+            searchUrl.append(color);
+        }
+        String site = ImageRequestFilters.getSite();
+        if ( site != null && !TextUtils.isEmpty(site)) {
+            searchUrl.append("&as_sitesearch=");
+            searchUrl.append(site);
+        }
+        ImageSize size = ImageRequestFilters.getSize();
+        if(size != null){
+            switch (size)
+            {
+                case ICON:
+                    searchUrl.append("&imgsz=icon");
+                    break;
+                case SMALL:
+                    searchUrl.append("&imgsz=small");
+                    break;
+                case MEDIUM:
+                    searchUrl.append("&imgsz=medium");
+                    break;
+                case LARGE:
+                    searchUrl.append("&imgsz=large");
+                    break;
+                case EXTRA_LARGE:
+                    searchUrl.append("&imgsz=xlarge");
+                    break;
+                case EXTRA_EXTRA_LARGE:
+                    searchUrl.append("&imgsz=xxlarge");
+                    break;
+                case HUGE:
+                    searchUrl.append("&imgsz=huge");
+                    break;
+                case NONE:
+                default:
+                    break;
+            }
+        }
+
+        ImageType type = ImageRequestFilters.getType();
+        if(type!= null) {
+            switch (type) {
+                case FACE:
+                    searchUrl.append("&imgtype=face");
+                    break;
+
+                case PHOTO:
+                    searchUrl.append("&imgtype=photo ");
+                    break;
+                case CLIPART:
+                    searchUrl.append("&imgtype=clipart ");
+                    break;
+                case LINEART:
+                    searchUrl.append("&imgtype=lineart");
+                    break;
+                case NONE:
+                default:
+                    break;
+            }
+        }
+        return searchUrl.toString();
+    }
+
+    public void onFilterSave(View view) {
+
+        SearchActivity.DoImageSearch();
+
+    }
+
 }

@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pc.gridimagesearch.activities.FiltersDialog"
+    android:id="@+id/set_filters"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image Size"
+        android:id="@+id/tvImageSize"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/spImageSize"
+        />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spImageSize"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:spinnerMode="dropdown"
+        android:entries="@array/size_array"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvImageSize"
+        android:layout_toEndOf="@+id/tvImageSize"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image Color: "
+        android:id="@+id/tvImageColor"
+        android:layout_below="@+id/spImageSize"
+        android:layout_toLeftOf="@+id/spImageSize"
+        android:layout_alignParentStart="true"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/etImageColor"
+        android:layout_below="@+id/spImageSize"
+        android:layout_alignLeft="@+id/spImageSize"
+        android:layout_toRightOf="@id/tvImageColor"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Site: "
+        android:id="@+id/tvImageSite"
+        android:layout_below="@+id/etImageColor"
+        android:layout_toLeftOf="@+id/etImageColor"
+        android:layout_alignParentStart="true"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/etImageSite"
+        android:layout_below="@+id/etImageColor"
+        android:layout_alignLeft="@+id/etImageColor"
+        android:layout_toRightOf="@id/tvImageColor"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type: "
+        android:id="@+id/tvImageType"
+        android:layout_below="@+id/etImageSite"
+        android:layout_toLeftOf="@+id/etImageSite"
+        android:layout_alignParentStart="true"
+        />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:entries="@array/type_array"
+        android:id="@+id/spImageType"
+        android:layout_below="@+id/etImageSite"
+        android:layout_alignLeft="@+id/etImageSite"
+        android:layout_toRightOf="@id/tvImageSite"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/btnSave"
+        android:layout_below="@+id/tvImageType"
+        android:layout_alignLeft="@+id/tvImageType"
+        android:layout_alignStart="@+id/spImageType" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:id="@+id/btnClear"
+        android:layout_below="@+id/spImageType"
+        android:layout_alignLeft="@+id/spImageType"
+        android:layout_toRightOf="@+id/btnSave" />
+
+
+</RelativeLayout>

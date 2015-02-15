@@ -26,6 +26,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pc.gridimagesearch.activities.SearchActivity" />
         </activity>
+        <activity
+            android:name=".activities.FiltersDialog"
+            android:label="@string/title_activity_set_filters" >
+        </activity>
     </application>
 
 </manifest>
