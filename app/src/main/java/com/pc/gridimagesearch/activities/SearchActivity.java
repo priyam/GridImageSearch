@@ -160,7 +160,7 @@ public class SearchActivity extends ActionBarActivity {
     {
         AsyncHttpClient client = new AsyncHttpClient();
 
-        //Log.d("ERROR", url);
+        Log.d("ERROR", url);
         // https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android&rsz=1
         client.get(url, new JsonHttpResponseHandler() {
             @Override

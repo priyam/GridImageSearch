@@ -28,7 +28,9 @@
         </activity>
         <activity
             android:name=".activities.FiltersDialog"
-            android:label="@string/title_activity_set_filters" >
+            android:label="@string/title_activity_set_filters"
+           >
+
         </activity>
     </application>
 

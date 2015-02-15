@@ -1,6 +1,8 @@
 package com.pc.gridimagesearch.activities;
 
+import android.app.Dialog;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,11 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.pc.gridimagesearch.R;
 import com.pc.gridimagesearch.models.ImageRequestFilters;
@@ -53,7 +57,10 @@ public class FiltersDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.activity_filters, container);
         //spImageSize = (Spinner) view.findViewById(R.id.spImageSize);
         String title = getArguments().getString("title", "Advanced Filters");
-        getDialog().setTitle(title);
+        Dialog dialog = getDialog();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.activity_filters);
+        ((TextView) dialog.findViewById(R.id.tvDialogTitle)).setText(title);
         Button btnSave = (Button) view.findViewById(R.id.btnSave);
         Resources res = getResources();
         spImageSize= (Spinner) view.findViewById(R.id.spImageSize);
