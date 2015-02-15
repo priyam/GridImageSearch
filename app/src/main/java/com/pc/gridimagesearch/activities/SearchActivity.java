@@ -1,6 +1,9 @@
 package com.pc.gridimagesearch.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.loopj.android.http.AsyncHttpClient;
@@ -36,6 +40,7 @@ import java.util.ArrayList;
 public class SearchActivity extends ActionBarActivity {
 
     //private EditText etQuery;
+    private static  Context context;
     private StaggeredGridView gvResults;
     private static ArrayList<ImageResult> imageResults;
     private static ImageResultsAdapter aImageResults;
@@ -53,7 +58,7 @@ public class SearchActivity extends ActionBarActivity {
         // Set a ToolBar to replace the ActionBar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        context = getApplicationContext();
         setupViews();
         imageResults = new ArrayList<ImageResult>();
         aImageResults = new ImageResultsAdapter(this, imageResults);
@@ -148,6 +153,9 @@ public class SearchActivity extends ActionBarActivity {
     }
 
     public static void DoImageSearchApi() {
+        if(!isNetworkAvailable()){
+            Toast.makeText(context, "No Internet Connection Available :( Check your settings!", Toast.LENGTH_LONG).show();
+        }
         String searchUrl = getSearchUrl(queryTerm);
         FetchImagesFromUrl(searchUrl);
     }
@@ -176,6 +184,14 @@ public class SearchActivity extends ActionBarActivity {
             }
         });
     }
+
+    private static Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
     private static String getSearchUrl(String query) {
 
         StringBuilder searchUrl = new StringBuilder("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=");
@@ -248,10 +264,5 @@ public class SearchActivity extends ActionBarActivity {
         return searchUrl.toString();
     }
 
-    public void onFilterSave(View view) {
-
-        SearchActivity.DoImageSearch();
-
-    }
 
 }
