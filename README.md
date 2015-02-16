@@ -9,7 +9,7 @@ Completed user stories:
  * [x] Required: User can click on "settings" which allows selection of advanced search options to filter results
  * [x] Required: User can configure advanced search filters such as:
  * [x] Required: Size (small, medium, large, extra-large)
-        * Color filter (black, blue, brown, gray, green, etc...)
+        * Color filter (black, blue, brown, gray, green, etc... )
         * Type (faces, photo, clip art, line art)
         * Site (espn.com)
  * [x] Required: Subsequent searches will have any filters applied to the search results
