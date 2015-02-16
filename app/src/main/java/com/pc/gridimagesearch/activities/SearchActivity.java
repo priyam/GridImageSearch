@@ -97,7 +97,7 @@ public class SearchActivity extends ActionBarActivity {
                 //get the image results to display
                 ImageResult result = imageResults.get(position);
                 //pass the image results into intent
-                i.putExtra("url", result.getFullUrl());
+                i.putExtra("image", result);
                 startActivity(i);
             }
         });

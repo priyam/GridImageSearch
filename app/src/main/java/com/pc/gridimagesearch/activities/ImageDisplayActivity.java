@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.pc.gridimagesearch.R;
+import com.pc.gridimagesearch.models.ImageResult;
 import com.squareup.picasso.Picasso;
 
 
@@ -18,7 +19,8 @@ public class ImageDisplayActivity extends ActionBarActivity {
         setContentView(R.layout.activity_image_display);
 
         //Pull out the url from intent
-        String url = getIntent().getStringExtra("url");
+        ImageResult result = (ImageResult) getIntent().getParcelableExtra("image");
+        String url = result.getFullUrl();
         //Find the image view
         ImageView ivImageResult = (ImageView) findViewById(R.id.ivImageResult);
         //Load the image url into the image view using Picaso
