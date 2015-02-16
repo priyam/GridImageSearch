@@ -25,6 +25,6 @@ Completed user stories:
 
 Walkthrough of all user stories:
 
-![Video Walkthrough](demo-googleimagesearch-app.gif)
+![Video Walkthrough](demo2-googleimagesearch-app.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
